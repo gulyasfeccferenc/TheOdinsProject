@@ -8,18 +8,46 @@
 # any more than you have to.
 # Post your solution below, then check out the example solution provided.
 
-class Player
+module TicTacToe
 
+  class Player
+
+    def initialize
+    end
+  end
+
+  class Cell
+    attr_reader :value
+    def initialize (value=" ")
+      @value = value
+    end
+
+    def fill (value)
+      @value = value unless value == " "
+    end
+  end
+
+  class Board
+    def initialize
+      @cells = Array.new(3) { Array.new(3) {Cell.new} }
+
+    end
+
+    def draw_board
+      @cells.each {|x, y, z| print "| ", x.value," | ", y.value," | ",z.value, " |","\n", "-------------", "\n"}
+    end
+
+    def win
+    end
+  end
+
+  class Game
+  
+    def initialize
+      @board = Board.new()
+    end
+  end
 end
 
-class Cell
-
-end
-
-class Board < Cell
-
-end
-
-class TicTacToe
-
-end
+c = TicTacToe::Board.new
+c.draw_board
