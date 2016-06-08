@@ -15,23 +15,22 @@ class Hangman
   end
 
   def guess (letter)
-    regex = ['/',letter,'/'].join
-    @game_word = @current_word.gsub(/a/, '_')
-  # @game_word = @current_word.split('').each do |x| 
-  #   print x
-  #   if x == letter
-  #     x = letter
-  #     @correct_letters << letter
-  #   else  
-  #     x = '_ '
-  #     @incorrect_letters << letter unless @incorrect_letters.include? letter
-  #   end
-  # end
-
-  
-    puts @incorrect_letters
-    @game_word
+    #@current_word.gsub(/#{letter}/, letter)
+    if @current_word.include?letter
+      correct_letters << letter 
+    else
+      incorrect_letters << letter
+    end
+    @game_word = @current_word.split('').map do |x|
+        if correct_letters.include?x
+          x = x
+        else
+          x = '_ '
+        end
+    end
+    @game_word.join()
   end
+
 
   def start
     @currentWord = getNewWord
@@ -41,13 +40,22 @@ class Hangman
     while @current_word.length < 4 || @current_word.length > 12
       @current_word = getNewWord
     end
-    @game_word = @current_word
+    @game_word = censor(@current_word)
+  end
+
+  def game
+    start()
+    puts @game_word
+    puts "Type a letter below:"
+    while incorrect_letters.length < 5
+      letter = gets.chomp
+      puts "You guessed: #{letter}"
+      puts guess(letter)
+      puts "You already tried #{incorrect_letters}"
+    end
+    puts "LOOOOOOOSEEEEEER"
   end
 end
 
-
-
-#print censor(currentWord)
 game = Hangman.new()
-game.start
-puts gameWord = game.guess('a')
+game.game
